@@ -1,44 +1,30 @@
 import { useState, useEffect } from "react";
 import {
-    Box,
-    Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    IconButton,
-    Tooltip,
-    Dialog,
-    DialogTitle,
-    DialogActions,
-    Button,
+    Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+    Paper, IconButton, Tooltip, Dialog, DialogTitle, DialogActions, Button
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FloatingButton from "../components/FloatingButton";
-import RoomModal from "../components/RoomModal";
+import LocationModal from "../components/LocationModal";
 
-export default function RoomsPage() {
-    const [rooms, setRooms] = useState([]);
+export default function LocationsPage() {
     const [locations, setLocations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [openModal, setOpenModal] = useState(false);
-    const [selectedRoom, setSelectedRoom] = useState(null);
+    const [selectedLocation, setSelectedLocation] = useState(null);
     const [confirmDelete, setConfirmDelete] = useState(null);
 
     const token = localStorage.getItem("token");
 
-    const fetchRooms = async () => {
+    const fetchLocations = async () => {
         try {
-            const res = await fetch("https://localhost:7181/api/Room", {
+            const res = await fetch("https://localhost:7181/api/Location", {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            if (!res.ok) throw new Error("Erro ao carregar salas");
+            if (!res.ok) throw new Error("Erro ao carregar localizações");
             const data = await res.json();
-            setRooms(data);
+            setLocations(data);
         } catch (err) {
             console.error(err);
         } finally {
@@ -46,38 +32,25 @@ export default function RoomsPage() {
         }
     };
 
-    const fetchLocations = async () => {
-        try {
-            const res = await fetch("https://localhost:7181/api/Location", {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const data = await res.json();
-            setLocations(data);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
     useEffect(() => {
-        fetchRooms();
         fetchLocations();
     }, []);
 
     const handleNew = () => {
-        setSelectedRoom(null);
+        setSelectedLocation(null);
         setOpenModal(true);
     };
 
-    const handleEdit = (room) => {
-        setSelectedRoom(room);
+    const handleEdit = (location) => {
+        setSelectedLocation(location);
         setOpenModal(true);
     };
 
     const handleSave = async (payload) => {
-        const url = selectedRoom
-            ? `https://localhost:7181/api/Room/${selectedRoom.id}`
-            : "https://localhost:7181/api/Room";
-        const method = selectedRoom ? "PUT" : "POST";
+        const url = selectedLocation
+            ? `https://localhost:7181/api/Location/${selectedLocation.id}`
+            : "https://localhost:7181/api/Location";
+        const method = selectedLocation ? "PUT" : "POST";
 
         const res = await fetch(url, {
             method,
@@ -89,17 +62,17 @@ export default function RoomsPage() {
         });
 
         if (res.ok) {
-            await fetchRooms();
+            await fetchLocations();
             setOpenModal(false);
         } else {
-            alert("Erro ao salvar sala");
+            alert("Erro ao salvar localização");
         }
     };
 
     const handleDelete = async () => {
         try {
             const res = await fetch(
-                `https://localhost:7181/api/Room/${confirmDelete}`,
+                `https://localhost:7181/api/Location/${confirmDelete}`,
                 {
                     method: "DELETE",
                     headers: { Authorization: `Bearer ${token}` },
@@ -107,9 +80,9 @@ export default function RoomsPage() {
             );
             if (res.ok) {
                 setConfirmDelete(null);
-                fetchRooms();
+                fetchLocations();
             } else {
-                alert("Erro ao excluir sala");
+                alert("Erro ao excluir localização");
             }
         } catch (err) {
             console.error(err);
@@ -118,39 +91,33 @@ export default function RoomsPage() {
 
     return (
         <Box sx={{ p: 3 }}>
-            <Typography variant="h4" gutterBottom>
-                Lista de Salas
-            </Typography>
+            <Typography variant="h4" gutterBottom>Lista de Localizações</Typography>
 
             {loading ? (
                 <Typography>Carregando...</Typography>
-            ) : rooms.length === 0 ? (
-                <Typography>Nenhuma sala encontrada.</Typography>
+            ) : locations.length === 0 ? (
+                <Typography>Nenhuma localização encontrada.</Typography>
             ) : (
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Nome</TableCell>
-                                <TableCell>Localização</TableCell>
-                                <TableCell>Capacidade</TableCell>
                                 <TableCell align="center">Ações</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rooms.map((room) => (
-                                <TableRow key={room.id}>
-                                    <TableCell>{room.name}</TableCell>
-                                    <TableCell>{room.locationName}</TableCell>
-                                    <TableCell>{room.capacity}</TableCell>
+                            {locations.map((loc) => (
+                                <TableRow key={loc.id}>
+                                    <TableCell>{loc.name}</TableCell>
                                     <TableCell align="center">
                                         <Tooltip title="Editar">
-                                            <IconButton color="primary" onClick={() => handleEdit(room)}>
+                                            <IconButton color="primary" onClick={() => handleEdit(loc)}>
                                                 <EditIcon />
                                             </IconButton>
                                         </Tooltip>
                                         <Tooltip title="Excluir">
-                                            <IconButton color="error" onClick={() => setConfirmDelete(room.id)}>
+                                            <IconButton color="error" onClick={() => setConfirmDelete(loc.id)}>
                                                 <DeleteIcon />
                                             </IconButton>
                                         </Tooltip>
@@ -162,25 +129,22 @@ export default function RoomsPage() {
                 </TableContainer>
             )}
 
-            <FloatingButton text="Nova sala" icon="+" onClick={handleNew} />
+            <FloatingButton text="Nova Localização" icon="+" onClick={handleNew} />
 
             {openModal && (
-                <RoomModal
+                <LocationModal
                     open={openModal}
                     onClose={() => setOpenModal(false)}
-                    selectedRoom={selectedRoom}
-                    locations={locations}
+                    selectedLocation={selectedLocation}
                     onSave={handleSave}
                 />
             )}
 
             <Dialog open={!!confirmDelete} onClose={() => setConfirmDelete(null)}>
-                <DialogTitle>Deseja realmente excluir esta sala?</DialogTitle>
+                <DialogTitle>Deseja realmente excluir esta localização?</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => setConfirmDelete(null)}>Cancelar</Button>
-                    <Button color="error" variant="contained" onClick={handleDelete}>
-                        Excluir
-                    </Button>
+                    <Button color="error" variant="contained" onClick={handleDelete}>Excluir</Button>
                 </DialogActions>
             </Dialog>
         </Box>

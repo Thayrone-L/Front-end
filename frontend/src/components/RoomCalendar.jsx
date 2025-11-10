@@ -1,14 +1,44 @@
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import { useState } from 'react'
+ï»¿import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { useState, useEffect } from 'react';
 import ptBrLocale from "@fullcalendar/core/locales/pt-br";
-export default function RoomCalendar() {
-    const [events, setEvents] = useState([
-        { title: 'Reunião A', start: '2025-11-10T09:00:00', end: '2025-11-10T10:00:00' },
-        { title: 'Treinamento', start: '2025-11-12T14:00:00', end: '2025-11-12T16:00:00' }
-    ])
+
+export default function RoomCalendar({ selectedSala }) {
+    const [events, setEvents] = useState([]);
+    useEffect(() => {
+        if (!selectedSala) {
+            setEvents([]);
+            return;
+        }
+
+        const fetchEvents = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(`https://localhost:7181/api/Reservation/by-room/${selectedSala.id}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!res.ok) throw new Error("Erro ao buscar reservas da sala");
+
+                const data = await res.json();
+                const calendarEvents = data.map(r => ({
+                    id: r.id,
+                    title: r.responsible + (r.coffeeRequested ? " Sim" : ""),
+                    start: r.start,
+                    end: r.end,
+                }));
+
+                setEvents(calendarEvents);
+            } catch (err) {
+                console.error(err);
+                setEvents([]);
+            }
+        };
+
+        fetchEvents();
+    }, [selectedSala]);
 
     return (
         <div style={{ width: '100%', height: '80vh', padding: '1rem' }}>
@@ -32,5 +62,5 @@ export default function RoomCalendar() {
                 height="100%"
             />
         </div>
-    )
+    );
 }

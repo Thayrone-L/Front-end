@@ -8,13 +8,11 @@ import {
     MenuItem,
     FormControlLabel,
     Checkbox,
-    Box
+    Box,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import axios from "axios";
 
-export default function ReservationModal({ open, onClose, selectedSala, onSave }) {
-    const [salas, setSalas] = useState([]);
+export default function ReservationModal({ open, onClose, salas, selectedSala, selectedReserva, onSave }) {
     const [formData, setFormData] = useState({
         roomId: "",
         start: "",
@@ -22,34 +20,44 @@ export default function ReservationModal({ open, onClose, selectedSala, onSave }
         responsible: "",
         coffeeRequested: false,
         coffeeQuantity: 0,
-        coffeeDescription: ""
+        coffeeDescription: "",
     });
-    const token = localStorage.getItem("token");
 
     useEffect(() => {
-        if (open) {
-            axios
-                .get("https://localhost:7181/api/Room", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                .then((res) => setSalas(res.data))
-                .catch((err) => console.error("Erro ao carregar salas:", err));
-        }
-    }, [open]);
-
-    useEffect(() => {
-        if (selectedSala) {
+        if (selectedReserva) {
+            setFormData({
+                roomId: selectedReserva.roomId || "",
+                start: selectedReserva.start
+                    ? new Date(selectedReserva.start).toISOString().slice(0, 16)
+                    : "",
+                end: selectedReserva.end
+                    ? new Date(selectedReserva.end).toISOString().slice(0, 16)
+                    : "",
+                responsible: selectedReserva.responsible || "",
+                coffeeRequested: selectedReserva.coffeeRequested || false,
+                coffeeQuantity: selectedReserva.coffeeQuantity || 0,
+                coffeeDescription: selectedReserva.coffeeDescription || "",
+            });
+        } else if (selectedSala) {
             setFormData((prev) => ({ ...prev, roomId: selectedSala.id }));
+        } else {
+            setFormData({
+                roomId: "",
+                start: "",
+                end: "",
+                responsible: "",
+                coffeeRequested: false,
+                coffeeQuantity: 0,
+                coffeeDescription: "",
+            });
         }
-    }, [selectedSala]);
+    }, [selectedReserva, selectedSala]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value
+            [name]: type === "checkbox" ? checked : value,
         }));
     };
 
@@ -66,7 +74,7 @@ export default function ReservationModal({ open, onClose, selectedSala, onSave }
             responsible: formData.responsible,
             coffeeRequested: formData.coffeeRequested,
             coffeeQuantity: formData.coffeeRequested ? Number(formData.coffeeQuantity) : 0,
-            coffeeDescription: formData.coffeeRequested ? formData.coffeeDescription : null
+            coffeeDescription: formData.coffeeRequested ? formData.coffeeDescription : null,
         };
 
         onSave(payload);
@@ -75,15 +83,11 @@ export default function ReservationModal({ open, onClose, selectedSala, onSave }
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>Nova Reserva</DialogTitle>
-            <DialogContent
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
-                    mt: 2
-                }}
-            >
+            <DialogTitle>
+                {selectedReserva ? "Editar Reserva" : "Nova Reserva"}
+            </DialogTitle>
+
+            <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
                 <TextField
                     select
                     label="Sala"
@@ -91,11 +95,10 @@ export default function ReservationModal({ open, onClose, selectedSala, onSave }
                     value={formData.roomId}
                     onChange={handleChange}
                     required
-                    sx={{ mt: 1 }}
                 >
-                    {salas.map((s) => (
+                    {salas?.map((s) => (
                         <MenuItem key={s.id} value={s.id}>
-                            {s.nome}
+                            {s.name}
                         </MenuItem>
                     ))}
                 </TextField>

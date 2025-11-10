@@ -2,13 +2,18 @@ import { Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/materia
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import EventIcon from '@mui/icons-material/Event'
 import { useNavigate } from 'react-router-dom'
-
+import HomeIcon from '@mui/icons-material/Home';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PersonIcon from '@mui/icons-material/Person';
 export default function SideMenu() {
     const navigate = useNavigate()
 
     const menuItems = [
-        { text: 'Inicio', icon: <MeetingRoomIcon />, path: '/dashboard' },
+        { text: 'Início', icon: <HomeIcon />, path: '/dashboard' },
         { text: 'Reservas', icon: <EventIcon />, path: '/reservations' },
+        { text: 'Salas', icon: <MeetingRoomIcon />, path: '/rooms' },
+        { text: 'Localizações', icon: <LocationOnIcon />, path: '/locations' },
+        { text: 'Usuários', icon: <PersonIcon />, path: '/users' },
     ]
 
     return (
