@@ -15,7 +15,7 @@ function LoginPage() {
         if (success) {
             navigate("/dashboard");
         } else {
-            alert("Usu�rio ou senha incorretos");
+            alert("Usuário ou senha incorretos");
         }
     };
 
@@ -25,12 +25,12 @@ function LoginPage() {
                 <Typography variant="h5" mb={2}>Login</Typography>
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <TextField
-                        label="Username"
+                        label="Usuário"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <TextField
-                        label="Password"
+                        label="Senha"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}

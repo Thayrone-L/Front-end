@@ -63,7 +63,7 @@ export default function ReservationModal({ open, onClose, salas, selectedSala, s
 
     const handleSave = () => {
         if (!formData.roomId || !formData.start || !formData.end || !formData.responsible) {
-            alert("Preencha todos os campos obrigatórios!");
+            alert("Preencha todos os campos obrigatÃ³rios!");
             return;
         }
 
@@ -104,7 +104,7 @@ export default function ReservationModal({ open, onClose, salas, selectedSala, s
                 </TextField>
 
                 <TextField
-                    label="Responsável"
+                    label="ResponsÃ¡vel"
                     name="responsible"
                     value={formData.responsible}
                     onChange={handleChange}
@@ -113,7 +113,7 @@ export default function ReservationModal({ open, onClose, salas, selectedSala, s
 
                 <Box sx={{ display: "flex", gap: 2 }}>
                     <TextField
-                        label="Início"
+                        label="InÃ­cio"
                         type="datetime-local"
                         name="start"
                         value={formData.start}
@@ -124,7 +124,7 @@ export default function ReservationModal({ open, onClose, salas, selectedSala, s
                     />
 
                     <TextField
-                        label="Término"
+                        label="TÃ©rmino"
                         type="datetime-local"
                         name="end"
                         value={formData.end}
@@ -143,13 +143,13 @@ export default function ReservationModal({ open, onClose, salas, selectedSala, s
                             name="coffeeRequested"
                         />
                     }
-                    label="Solicitar café?"
+                    label="Solicitar cafÃ©?"
                 />
 
                 {formData.coffeeRequested && (
                     <>
                         <TextField
-                            label="Quantidade de cafés"
+                            label="Quantidade de cafÃ©s"
                             type="number"
                             name="coffeeQuantity"
                             value={formData.coffeeQuantity}
@@ -158,7 +158,7 @@ export default function ReservationModal({ open, onClose, salas, selectedSala, s
                         />
 
                         <TextField
-                            label="Descrição do café"
+                            label="DescriÃ§Ã£o do cafÃ©"
                             name="coffeeDescription"
                             value={formData.coffeeDescription}
                             onChange={handleChange}

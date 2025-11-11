@@ -9,11 +9,11 @@ export default function SideMenu() {
     const navigate = useNavigate()
 
     const menuItems = [
-        { text: 'Início', icon: <HomeIcon />, path: '/dashboard' },
+        { text: 'InÃ­cio', icon: <HomeIcon />, path: '/dashboard' },
         { text: 'Reservas', icon: <EventIcon />, path: '/reservations' },
         { text: 'Salas', icon: <MeetingRoomIcon />, path: '/rooms' },
-        { text: 'Localizações', icon: <LocationOnIcon />, path: '/locations' },
-        { text: 'Usuários', icon: <PersonIcon />, path: '/users' },
+        { text: 'LocalizaÃ§Ãµes', icon: <LocationOnIcon />, path: '/locations' },
+        { text: 'UsuÃ¡rios', icon: <PersonIcon />, path: '/users' },
     ]
 
     return (

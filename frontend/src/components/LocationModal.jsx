@@ -14,7 +14,7 @@ export default function LocationModal({ open, onClose, selectedLocation, onSave 
 
     const handleSave = () => {
         if (!name.trim()) {
-            alert("Preencha o nome da localização!");
+            alert("Preencha o nome da localizaï¿½ï¿½o!");
             return;
         }
         onSave({ name });
@@ -23,7 +23,7 @@ export default function LocationModal({ open, onClose, selectedLocation, onSave 
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>{selectedLocation ? "Editar Localização" : "Nova Localização"}</DialogTitle>
+            <DialogTitle>{selectedLocation ? "Editar LocalizaÃ§Ã£o" : "Nova LocalizaÃ§Ã£o"}</DialogTitle>
             <DialogContent sx={{ mt: 1 }}>
                 <TextField
                     label="Nome"

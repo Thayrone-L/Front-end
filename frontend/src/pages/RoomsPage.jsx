@@ -132,9 +132,9 @@ export default function RoomsPage() {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Nome</TableCell>
-                                <TableCell>Localização</TableCell>
+                                <TableCell>LocalizaÃ§Ã£o</TableCell>
                                 <TableCell>Capacidade</TableCell>
-                                <TableCell align="center">Ações</TableCell>
+                                <TableCell align="center">AÃ§Ãµes</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

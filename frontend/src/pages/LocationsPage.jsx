@@ -22,7 +22,7 @@ export default function LocationsPage() {
             const res = await fetch("https://localhost:7181/api/Location", {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            if (!res.ok) throw new Error("Erro ao carregar localizações");
+            if (!res.ok) throw new Error("Erro ao carregar as localizaÃ§Ãµes");
             const data = await res.json();
             setLocations(data);
         } catch (err) {
@@ -65,7 +65,7 @@ export default function LocationsPage() {
             await fetchLocations();
             setOpenModal(false);
         } else {
-            alert("Erro ao salvar localização");
+            alert("Erro ao salvar localizaÃ§Ã£o");
         }
     };
 
@@ -82,7 +82,7 @@ export default function LocationsPage() {
                 setConfirmDelete(null);
                 fetchLocations();
             } else {
-                alert("Erro ao excluir localização");
+                alert("Erro ao excluir localizaÃ§Ã£o");
             }
         } catch (err) {
             console.error(err);
@@ -91,19 +91,19 @@ export default function LocationsPage() {
 
     return (
         <Box sx={{ p: 3 }}>
-            <Typography variant="h4" gutterBottom>Lista de Localizações</Typography>
+            <Typography variant="h4" gutterBottom>Lista de Localizaï¿½ï¿½es</Typography>
 
             {loading ? (
                 <Typography>Carregando...</Typography>
             ) : locations.length === 0 ? (
-                <Typography>Nenhuma localização encontrada.</Typography>
+                <Typography>Nenhuma localizaÃ§Ã£o encontrada.</Typography>
             ) : (
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Nome</TableCell>
-                                <TableCell align="center">Ações</TableCell>
+                                <TableCell align="center">AÃ§Ãµes</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -129,7 +129,7 @@ export default function LocationsPage() {
                 </TableContainer>
             )}
 
-            <FloatingButton text="Nova Localização" icon="+" onClick={handleNew} />
+            <FloatingButton text="Nova LocalizaÃ§Ã£o" icon="+" onClick={handleNew} />
 
             {openModal && (
                 <LocationModal
@@ -141,7 +141,7 @@ export default function LocationsPage() {
             )}
 
             <Dialog open={!!confirmDelete} onClose={() => setConfirmDelete(null)}>
-                <DialogTitle>Deseja realmente excluir esta localização?</DialogTitle>
+                <DialogTitle>Deseja realmente excluir esta localizaÃ§Ã£o?</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => setConfirmDelete(null)}>Cancelar</Button>
                     <Button color="error" variant="contained" onClick={handleDelete}>Excluir</Button>

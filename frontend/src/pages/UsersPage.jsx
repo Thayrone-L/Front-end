@@ -22,7 +22,7 @@ export default function UsersPage() {
       const res = await fetch("https://localhost:7181/api/User", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error("Erro ao carregar usuários");
+      if (!res.ok) throw new Error("Erro ao carregar usuï¿½rios");
       const data = await res.json();
       setUsers(data);
     } catch (err) {
@@ -65,7 +65,7 @@ export default function UsersPage() {
       await fetchUsers();
       setOpenModal(false);
     } else {
-      alert("Erro ao salvar usuário");
+      alert("Erro ao salvar usuÃ¡rio");
     }
   };
 
@@ -79,7 +79,7 @@ export default function UsersPage() {
         setConfirmDelete(null);
         fetchUsers();
       } else {
-        alert("Erro ao excluir usuário");
+        alert("Erro ao excluir usuÃ¡rio");
       }
     } catch (err) {
       console.error(err);
@@ -88,19 +88,19 @@ export default function UsersPage() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>Lista de Usuários</Typography>
+      <Typography variant="h4" gutterBottom>Lista de UsuÃ¡rios</Typography>
 
       {loading ? (
         <Typography>Carregando...</Typography>
       ) : users.length === 0 ? (
-        <Typography>Nenhum usuário encontrado.</Typography>
+        <Typography>Nenhum usuÃ¡rio encontrado.</Typography>
       ) : (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell>Username</TableCell>
-                <TableCell align="center">Ações</TableCell>
+                <TableCell align="center">AÃ§Ãµes</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -126,7 +126,7 @@ export default function UsersPage() {
         </TableContainer>
       )}
 
-      <FloatingButton text="Novo Usuário" icon="+" onClick={handleNew} />
+      <FloatingButton text="Novo UsuÃ¡rio" icon="+" onClick={handleNew} />
 
       {openModal && (
         <UserModal
@@ -138,7 +138,7 @@ export default function UsersPage() {
       )}
 
       <Dialog open={!!confirmDelete} onClose={() => setConfirmDelete(null)}>
-        <DialogTitle>Deseja realmente excluir este usuário?</DialogTitle>
+        <DialogTitle>Deseja realmente excluir este usuÃ¡rio?</DialogTitle>
         <DialogActions>
           <Button onClick={() => setConfirmDelete(null)}>Cancelar</Button>
           <Button color="error" variant="contained" onClick={handleDelete}>Excluir</Button>

@@ -15,20 +15,20 @@ function RegisterPage() {
 
         try {
             await register(username, password);
-            alert('Usuário registrado com sucesso!');
+            alert('Usuï¿½rio registrado com sucesso!');
             navigate('/login');
         } catch (err) {
-            setError(err.message || 'Erro ao registrar usuário');
+            setError(err.message || 'Erro ao registrar usuï¿½rio');
         }
     };
 
     return (
         <div style={{ maxWidth: '400px', margin: '2rem auto' }}>
-            <h2>Registrar Usuário</h2>
+            <h2>Registrar UsuÃ¡rio</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Usuário:</label>
+                    <label>UsuÃ¡rio:</label>
                     <input
                         type="text"
                         value={username}
